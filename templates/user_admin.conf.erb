@@ -1,0 +1,11 @@
+# Auto login configuration
+#
+# $default_login::              default admin username of the Pulp server; this user will be
+#                               the first time the server is started
+#
+# $default_password::           default password for admin when it is first created; this
+#                               should be changed once the server is operational
+
+[auth]
+username: <%= scope['pulp::admin::default_login'] %>
+password: <%= scope['pulp::admin::default_password'] %>

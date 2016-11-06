@@ -25,6 +25,10 @@ class pulp::admin::params {
   $enable_ostree      = false
   $enable_rpm         = true
 
+  $admin_auto_login   = false
+  $default_login      = $pulp::params::default_login
+  $default_password   = $pulp::params::default_password
+
   $puppet_upload_working_dir = '~/.pulp/puppet-uploads'
   $puppet_upload_chunk_size  = 1048576
 }

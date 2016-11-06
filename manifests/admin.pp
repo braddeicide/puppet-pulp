@@ -77,6 +77,15 @@
 # $puppet_upload_chunk_size::      Maximum amount of data (in bytes) sent for an upload in a single request
 #                                  type:integer
 #
+# $admin_auto_login::              Create ~/.pulp/admin.conf with login details to allow non-interactive
+#                                  admin commands
+#
+# $default_login::                 Default admin username of the Pulp server; this user will be
+#                                  the first time the server is started
+#
+# $default_password::              Default password for admin when it is first created; this
+#                                  should be changed once the server is operational
+#
 class pulp::admin (
   $version                   = $pulp::admin::params::version,
   $host                      = $pulp::admin::params::host,
@@ -104,6 +113,9 @@ class pulp::admin (
   $enable_rpm                = $pulp::admin::params::enable_rpm,
   $puppet_upload_working_dir = $pulp::admin::params::puppet_upload_working_dir,
   $puppet_upload_chunk_size  = $pulp::admin::params::puppet_upload_chunk_size,
+  $admin_auto_login          = $pulp::admin::params::admin_auto_login,
+  $default_login             = $pulp::admin::params::default_login,
+  $default_password          = $pulp::admin::params::default_password,
 ) inherits pulp::admin::params {
   validate_bool($enable_puppet)
   validate_bool($enable_docker)
@@ -115,6 +127,8 @@ class pulp::admin (
   validate_bool($verify_ssl)
   validate_bool($enable_color)
   validate_bool($wrap_to_terminal)
+
+  validate_bool($admin_auto_login)
 
   class { '::pulp::admin::install': } ~>
   class { '::pulp::admin::config': }

@@ -17,4 +17,21 @@ class pulp::admin::config {
       mode    => '0644',
     }
   }
+
+  file {"${facts['home']}/.pulp/": 
+      ensure  => 'directory',
+      owner   => $facts['identity']['user'],
+      group   => $facts['identity']['user'],
+      mode    => '0700',
+  }
+  if $pulp::admin::admin_auto_login {
+    file {"${facts['home']}/.pulp/admin.conf":
+      ensure  => 'file',
+      content => template('pulp/user_admin.conf.erb'),
+      owner   => $facts['identity']['user'],
+      group   => $facts['identity']['user'],
+      mode    => '0600',
+      require => File["${facts['home']}/.pulp/"]
+    }
+  }
 }
